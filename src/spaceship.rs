@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     asset_loader::SceneAssets,
+    collision_detection::Collider,
     movement::{Acceleration, MovingObjectBundle, Velocity},
 };
 
@@ -9,8 +10,10 @@ const STARTING_TRANSLATION: Vec3 = Vec3::new(0., 0., -20.);
 const SPACESHIP_SPEED: f32 = 25.0;
 const SPACESHIP_ROTATION_SPEED: f32 = 2.5;
 const SPACESHIP_ROLL_SPEED: f32 = 2.5;
+const SPACESHIP_RADIUS: f32 = 5.0;
 const MISSILE_SPEED: f32 = 50.;
 const MISSILE_FORWARD_SPAWN_SCALAR: f32 = 7.5;
+const MISSILE_RADIUS: f32 = 1.0;
 
 #[derive(Component, Debug)]
 pub struct Spaceship;
@@ -32,6 +35,7 @@ impl Plugin for SpaceshipPlugin {
 fn spawn_spaceship(mut commands: Commands, scene_assets: Res<SceneAssets>) {
     commands.spawn((
         MovingObjectBundle {
+            collider: Collider::new(SPACESHIP_RADIUS),
             acceleration: Acceleration::new(Vec3::ZERO),
             velocity: Velocity::new(Vec3::ZERO),
             model: SceneBundle {
@@ -93,6 +97,7 @@ fn spaceship_weapon_controls(
     if keyboard_input.pressed(KeyCode::Space) {
         commands.spawn((
             MovingObjectBundle {
+                collider: Collider::new(MISSILE_RADIUS),
                 velocity: Velocity::new(-transform.forward() * MISSILE_SPEED),
                 acceleration: Acceleration::new(Vec3::ZERO),
                 model: SceneBundle {
