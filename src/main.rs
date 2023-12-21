@@ -1,16 +1,16 @@
+use asset_loader::AssetLoaderPlugin;
+use asteroid::AsteroidPlugin;
 use bevy::prelude::*;
+use camera::CameraPlugin;
+use movement::MovementPlugin;
+use spaceship::SpaceshipPlugin;
 
+mod asset_loader;
 mod asteroid;
 mod camera;
 mod debug;
 mod movement;
 mod spaceship;
-
-use asteroid::AsteroidPlugin;
-use camera::CameraPlugin;
-use debug::DebugPlugin;
-use movement::MovementPlugin;
-use spaceship::SpaceshipPlugin;
 
 fn main() {
     App::new()
@@ -22,10 +22,11 @@ fn main() {
         })
         .add_plugins(DefaultPlugins)
         // User plugins
-        .add_plugins(SpaceshipPlugin)
+        .add_plugins(AssetLoaderPlugin)
         .add_plugins(CameraPlugin)
         .add_plugins(MovementPlugin)
         .add_plugins(AsteroidPlugin)
+        .add_plugins(SpaceshipPlugin)
         // .add_plugins(DebugPlugin)
         .run();
 }
